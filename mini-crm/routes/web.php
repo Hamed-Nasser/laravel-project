@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('login'));
+});
+
+Route::middleware('auth:web', 'verified')->group(function () {
+
+     Route::get('/dashboard', function () {
+        return view('dashboard1');
+    })->name('dashboard');
+
+Route::view('/welcome', 'welcome');
+
+Route::get('/companyIndex', [CompanyController::class, 'Index'])->name('company.index');
+
+Route::post('/storeCompany',[CompanyController::class, 'storeCompany'])->name('store.company');
+
+
 });
